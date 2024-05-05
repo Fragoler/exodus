@@ -33,6 +33,13 @@ public sealed class PurchaseShuttleCommand : IConsoleCommand
             return;
         }
 
+        var stationNet = new NetEntity(stationId);
+
+        if (!stationNet.Valid)
+        {
+            shell.WriteError($"{args[0]} is not a valid NetId.");
+        }
+
         if (!_prototypeManager.TryIndex<VesselPrototype>(args[1], out var vessel))
         {
             shell.WriteError($"{args[1]} is not a valid vessel.");
@@ -40,8 +47,8 @@ public sealed class PurchaseShuttleCommand : IConsoleCommand
         }
 
         var system = _entityManager.System<ShipyardSystem>();
-        var stationNet = new NetEntity(stationId);
-        if(stationNet.Valid && _entityManager.TryGetEntity(stationNet, out var station))
+
+        if (_entityManager.TryGetEntity(stationNet, out var station))
             system.TryPurchaseShuttle(station.Value, vessel, out _);
     }
 

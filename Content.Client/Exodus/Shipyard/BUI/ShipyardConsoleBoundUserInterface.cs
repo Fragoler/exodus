@@ -25,15 +25,6 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
         _menu.OnOrderApproved += ApproveOrder;
     }
 
-    private void Populate()
-    {
-        if (_menu == null)
-            return;
-
-        _menu.PopulateProducts();
-        _menu.PopulateCategories();
-    }
-
     protected override void UpdateState(BoundUserInterfaceState state)
     {
         base.UpdateState(state);
@@ -45,6 +36,15 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
         var castState = (ShipyardConsoleInterfaceState) state;
         Populate();
         _menu?.UpdateState(castState);
+    }
+
+    private void Populate()
+    {
+        if (_menu is null)
+            return;
+
+        _menu.PopulateProducts();
+        _menu.PopulateCategories();
     }
 
     protected override void Dispose(bool disposing)
@@ -60,9 +60,7 @@ public sealed class ShipyardConsoleBoundUserInterface : BoundUserInterface
     private void ApproveOrder(ButtonEventArgs args)
     {
         if (args.Button.Parent?.Parent is not VesselRow row || row.Vessel == null)
-        {
             return;
-        }
 
         var vesselId = row.Vessel.ID;
         SendMessage(new ShipyardConsolePurchaseMessage(vesselId));

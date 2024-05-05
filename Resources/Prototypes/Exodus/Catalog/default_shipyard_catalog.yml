@@ -1,0 +1,44 @@
+- type: vessel
+  id: c1
+  name: C1
+  description: DESCRIPTION_C1
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/c1.yml
+
+- type: vessel
+  id: c2
+  name: C2
+  description: DESCRIPTION_C2
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/c2.yml
+
+- type: vessel
+  id: c3
+  name: C3
+  description: DESCRIPTION_C3
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/c3.yml
+
+- type: vessel
+  id: m1
+  name: M1
+  description: DESCRIPTION_M1
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Miner/m1.yml
+
+- type: vessel
+  id: m2
+  name: M2
+  description: DESCRIPTION_M2
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Miner/m2.yml

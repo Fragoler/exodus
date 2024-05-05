@@ -65,11 +65,7 @@ public sealed partial class ShipyardConsoleMenu : FancyWindow
         var search = SearchBar.Text.Trim().ToLowerInvariant();
         foreach (var prototype in vessels)
         {
-            if (_allowedGroup.Count != 0 && !_allowedGroup.Contains(prototype.Group))
-            {
-                continue;
-            }
-            if (_allowedGroup.Count == 0 && prototype.Private)
+            if (!_allowedGroup.Contains(prototype.Group))
             {
                 continue;
             }

@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.Exodus.Shipyard;
+namespace Content.Shared.Exodus.Shipyard.Systems;
 
 [NetSerializable, Serializable]
 public enum ShipyardConsoleUiKey : byte

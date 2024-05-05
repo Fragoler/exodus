@@ -1,12 +1,15 @@
 - type: entity
   id: ComputerShipyard
   parent: BaseComputer
-  name: shipyard console
+  name: cargo shipyard console
   description: Used to purchase and sell shuttles
   components:
   - type: ShipyardConsole
+    allowedGroup:
+    - Cargo
+    - Miner
   - type: AccessReader
-    access: [["Captain"]]
+    access: [["Captain"], ["Quartermaster"]]
   - type: ActivatableUI
     key: enum.ShipyardConsoleUiKey.Shipyard
   - type: UserInterface
