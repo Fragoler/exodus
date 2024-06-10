@@ -5,7 +5,7 @@
   price: 1
   category: Small
   group: Cargo
-  shuttlePath: /Maps/Exodus/ForSale/Cargo/c1.yml
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo.yml
 
 - type: vessel
   id: c2
@@ -14,7 +14,7 @@
   price: 1
   category: Small
   group: Cargo
-  shuttlePath: /Maps/Exodus/ForSale/Cargo/c2.yml
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_core.yml
 
 - type: vessel
   id: c3
@@ -23,7 +23,52 @@
   price: 1
   category: Small
   group: Cargo
-  shuttlePath: /Maps/Exodus/ForSale/Cargo/c3.yml
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_corvaxsilly.yml
+
+- type: vessel
+  id: c4
+  name: C4
+  description: DESCRIPTION_C4
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_fland.yml
+
+- type: vessel
+  id: c5
+  name: C5
+  description: DESCRIPTION_C5
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_gelta.yml
+
+- type: vessel
+  id: c6
+  name: C6
+  description: DESCRIPTION_C6
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_mayhen.yml
+
+- type: vessel
+  id: c7
+  name: C7
+  description: DESCRIPTION_C7
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/cargo_payback.yml
+
+- type: vessel
+  id: c8
+  name: C8
+  description: DESCRIPTION_C7
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Cargo/shuttle.yml
 
 - type: vessel
   id: m1
@@ -32,7 +77,7 @@
   price: 1
   category: Small
   group: Cargo
-  shuttlePath: /Maps/Exodus/ForSale/Miner/m1.yml
+  shuttlePath: /Maps/Exodus/ForSale/Miner/mining.yml
 
 - type: vessel
   id: m2
@@ -41,4 +86,22 @@
   price: 1
   category: Small
   group: Cargo
-  shuttlePath: /Maps/Exodus/ForSale/Miner/m2.yml
+  shuttlePath: /Maps/Exodus/ForSale/Miner/corvax_mining.yml
+
+- type: vessel
+  id: m3
+  name: M3
+  description: DESCRIPTION_M3
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Miner/mining_corvaxavrit.yml
+
+- type: vessel
+  id: m4
+  name: M4
+  description: DESCRIPTION_M4
+  price: 1
+  category: Small
+  group: Cargo
+  shuttlePath: /Maps/Exodus/ForSale/Miner/mining_corvaxsilly.yml
