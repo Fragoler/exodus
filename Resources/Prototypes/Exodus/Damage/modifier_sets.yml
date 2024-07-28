@@ -8,10 +8,10 @@
 - type: damageModifierSet
   id: Lavaland
   coefficients:
-    Blunt: 0.8
+    Blunt: 0.7
     Slash: 0.8
-    Piercing: 0.7
-    Heat: 1.4
+    Piercing: 0.4
+    Heat: 0.3
     Poison: 0.0
     Radiation: 0.5
     Asphyxiation: 0.0
