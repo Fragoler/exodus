@@ -147,7 +147,7 @@
   components:
   - type: WorldTargetAction
     maxUseRange: 20
-    minUseRange: 5
+    minUseRange: 0
     useDelay: 3
     range: 20
     itemIconStyle: BigAction
@@ -166,7 +166,7 @@
   components:
   - type: WorldTargetAction
     maxUseRange: 20
-    minUseRange: 4
+    minUseRange: 0
     useDelay: 5
     range: 20
     itemIconStyle: BigAction
@@ -186,7 +186,7 @@
   components:
   - type: WorldTargetAction
     maxUseRange: 20
-    minUseRange: 4
+    minUseRange: 0
     useDelay: 5
     range: 20
     itemIconStyle: BigAction
@@ -242,12 +242,12 @@
 #endregion
 
 
-#region HAOS
+#region Haos
 - type: entity
   id: ActionHerophantAttackHAOS1
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: WorldTargetAction
     maxUseRange: 20
     minUseRange: 0
     useDelay: 5
@@ -256,21 +256,20 @@
     icon:
       sprite: Objects/Magic/magicactions.rsi
       state: spell_default
-    event: !type:ConstantWorldEvent
-      event: !type:WorldMultishootEvent
-        shootCnt: 12
-        angle: 6,283
-        shootDelay: 0.15
-        event: !type:DirectionalLineSpawnEvent
-          spawnProto: BulletKinetic
-          stepDelay: 0.1
+    event: !type:WorldMultishootEvent
+      shootCnt: 25
+      angle: 6.283
+      shootDelay: 0.1
+      event: !type:DirectionProjectileSpellEvent
+        prototype: BulletKinetic
+
 
 
 - type: entity
   id: ActionHerophantAttackHAOS2
   noSpawn: true
   components:
-  - type: InstantAction
+  - type: WorldTargetAction
     maxUseRange: 20
     minUseRange: 0
     useDelay: 5
@@ -279,22 +278,9 @@
     icon:
       sprite: Objects/Magic/magicactions.rsi
       state: spell_default
-    event: !type:ConstantWorldEvent
-      event: !type:WorldAbilitiesGroupEvent
-        events:
-        - !type:WorldMultishootEvent
-          shootCnt: 7
-          angle: 3.1415
-          shootDelay: 0.15
-          event: !type:DirectionalLineSpawnEvent
-            spawnProto: BulletKinetic
-            stepDelay: 0.1
-        - !type:WorldMultishootEvent
-          shootCnt: 7
-          angle: 3.1415
-          clockwise: false
-          shootDelay: 0.15
-          event: !type:DirectionalLineSpawnEvent
-            spawnProto: BulletKinetic
-            stepDelay: 0.1
+    event: !type:WorldMultishootEvent
+      shootCnt: 16
+      angle: 6.283
+      event: !type:DirectionProjectileSpellEvent
+        prototype: BulletKinetic
 #endregion
