@@ -10,6 +10,7 @@ using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+
 using Robust.Shared.Map;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Physics.Components;
@@ -29,69 +30,52 @@ public abstract partial class SharedFlySystem : EntitySystem
     [Dependency] protected readonly SharedContainerSystem Container = default!;
     [Dependency] protected readonly SharedPhysicsSystem Physics = default!;
 
-    public override void Initialize()
+
+    public bool IsFlyState(EntityUid uid, FlyableEntityState curState = FlyableEntityState.InAir, FlyableComponent? comp = null)
     {
-        base.Initialize();
-
-
+        return curState == GetFlyState(uid, comp);
     }
 
-    protected bool CanTakeoff(EntityUid uid, FlyComponent? comp = null)
+    public FlyableEntityState GetFlyState(EntityUid uid, FlyableComponent? comp = null)
     {
         if (!Resolve(uid, ref comp))
-            return false;
+            return FlyableEntityState.OnGroud;
 
-        if (Container.IsEntityInContainer(uid) ||
-            comp.DoAnimation ||
-            comp.IsInAir)
-            return false;
-
-        var xform = Transform(uid);
-
-        if (xform.Anchored)
-            return false;
-
-        return true;
+        return comp.State;
     }
 
-    protected bool CanLand(EntityUid uid, FlyComponent? comp = null)
-    {
-        if (!Resolve(uid, ref comp) ||
-            comp.DoAnimation ||
-            !comp.IsInAir)
-            return false;
-
-        return true;
-    }
-
-    protected void SetCollidable(EntityUid uid, bool collidable)
-    {
-        var phys = EnsureComp<PhysicsComponent>(uid);
-        Physics.SetCanCollide(uid, collidable, body: phys);
-    }
-
-
-    [Serializable, NetSerializable]
-    protected sealed class LandAnimationMessage : EntityEventArgs
+    protected abstract class FlyEvents : EntityEventArgs
     {
         public NetEntity Entity;
     }
 
     [Serializable, NetSerializable]
-    protected sealed class TakeoffAnimationMessage : EntityEventArgs
+    protected sealed class LandAnimationMessage : FlyEvents
     {
-        public NetEntity Entity;
     }
 
     [Serializable, NetSerializable]
-    protected sealed class LandMessage : EntityEventArgs
+    protected sealed class TakeoffAnimationMessage : FlyEvents
     {
-        public NetEntity Entity;
     }
 
+
     [Serializable, NetSerializable]
-    protected sealed class TakeoffMessage : EntityEventArgs
+    protected sealed class MovedToGroundMessage : FlyEvents
     {
-        public NetEntity Entity;
+    }
+    [Serializable, NetSerializable]
+    protected sealed class MovedToAirMessage : FlyEvents
+    {
+    }
+
+
+    [Serializable, NetSerializable]
+    protected sealed class MovedFromGroundMessage : FlyEvents
+    {
+    }
+    [Serializable, NetSerializable]
+    protected sealed class MovedFromAirMessage : FlyEvents
+    {
     }
 }
