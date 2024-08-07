@@ -283,9 +283,9 @@ public sealed class FlySystem : SharedFlySystem
 
         if (xform.GridUid != null &&
             TryComp<MapGridComponent>(xform.GridUid, out var grid) &&
-            _map.TryGetTileRef(uid, grid, xform.Coordinates, out var tileRef))
+            _map.TryGetTileRef(xform.GridUid.Value, grid, xform.Coordinates, out var tileRef))
         {
-            if (tileRef.Tile.IsEmpty == true || _turf.IsTileBlocked(tileRef, Shared.Physics.CollisionGroup.Impassable))
+            if (_turf.IsTileBlocked(tileRef, Shared.Physics.CollisionGroup.Impassable))
             {
                 Log.Error("Not free tile");
                 return false;

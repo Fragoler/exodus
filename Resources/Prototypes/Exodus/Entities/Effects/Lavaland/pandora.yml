@@ -36,9 +36,8 @@
   id: PandoraAttackCellUnit
   parent: [ AttackCellUnitBase, AttackCellUnitSlow ]
   components:
-  - type: PlaySoundOnSpawn
-    spawnSound:
-      path: /Audio/Exodus/Lavaland/Bosses/Herophant/bum.ogg
+  - type: SoundOnTrigger
+    sound: /Audio/Exodus/Lavaland/Bosses/Herophant/bum.ogg
   - type: TimedDespawn
     lifetime: 0.65
   - type: Sprite
@@ -63,9 +62,8 @@
   id: PandoraAttackCellUnitBig
   parent: [ AttackCellUnitBaseBig, AttackCellUnitSlow ]
   components:
-  - type: PlaySoundOnSpawn
-    spawnSound:
-      path: /Audio/Exodus/Lavaland/Bosses/Herophant/bum.ogg
+  - type: SoundOnTrigger
+    sound: /Audio/Exodus/Lavaland/Bosses/Herophant/bum.ogg
   - type: TimedDespawn
     lifetime: 0.65
   - type: Sprite

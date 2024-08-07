@@ -1,19 +1,13 @@
-using System.Numerics;
-using Content.Shared.Salvage.Fulton;
-using Robust.Shared.Spawners;
-using JetBrains.Annotations;
+using Content.Client.Movement.Systems;
+using Content.Shared.DrawDepth;
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
-using Robust.Client.Graphics;
-using Robust.Shared.Animations;
-using Robust.Shared.Serialization.Manager;
-using Robust.Shared.Utility;
-using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
-using Content.Shared.Exodus.Fly;
-using TerraFX.Interop.Xlib;
-using Content.Client.Movement.Systems;
-using Robust.Shared.Physics.Components;
 using Robust.Client.Player;
+using Robust.Shared.Serialization.Manager;
+using System.Numerics;
+
+using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
+using DrawDepthConst = Content.Shared.DrawDepth.DrawDepth;
 
 
 namespace Content.Client.Exodus.Fly;
@@ -153,6 +147,7 @@ public sealed class FlySystem : SharedFlySystem
 
         _serManager.CopyTo(entSprite, ref animationSprite, notNullableOverride: true);
         animationSprite.Visible = true;
+        animationSprite.DrawDepth = DrawDepthConst.Effects;
 
         if (TryComp<AppearanceComponent>(entity, out var entAppearance))
         {

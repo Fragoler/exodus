@@ -1,0 +1,33 @@
+- type: entity
+  id: FallingMeteor
+  placement:
+    mode: SnapgridCenter
+    snap:
+      - Wall
+  components:
+  - type: Sprite
+    noRot: false
+    sprite: Objects/Misc/meteor.rsi
+    state: small
+  - type: TriggerOnLanding
+  - type: SoundOnTrigger
+    sound: /Audio/Effects/smoke.ogg
+  - type: Appearance
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.35,-0.35,0.35,0.35"
+        layer:
+          - SlipLayer
+        mask:
+          - MobMask
+        density: 1000
+        hard: false
+  - type: Flyable
+
