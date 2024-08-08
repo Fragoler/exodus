@@ -6,6 +6,7 @@
   - type: Sprite
     sprite: Exodus/Mobs/Lavaland/herophant.rsi
     offset: 0,0.5
+    drawdepth: Overdoors
     layers:
     - state: spawn
       shader: unshaded
@@ -39,6 +40,7 @@
   - type: Sprite
     sprite: Exodus/Mobs/Lavaland/herophant.rsi
     offset: 0,0.5
+    drawdepth: Overdoors
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]
       state: alive
