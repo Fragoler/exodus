@@ -45,7 +45,7 @@ public sealed partial class StaminaComponent : Component
     /// How long will this mob be stunned for?
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField]
-    public TimeSpan StunTime = TimeSpan.FromSeconds(6);
+    public TimeSpan StunTime = TimeSpan.FromSeconds(3); // Exodus - Stamina
 
     /// <summary>
     /// To avoid continuously updating our data we track the last time we updated so we can extrapolate our current stamina.
@@ -53,7 +53,4 @@ public sealed partial class StaminaComponent : Component
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField]
     [AutoPausedField]
     public TimeSpan NextUpdate = TimeSpan.Zero;
-
-    [DataField]
-    public ProtoId<AlertPrototype> StaminaAlert = "Stamina";
 }

@@ -20,11 +20,14 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
+using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
+
+
 
 namespace Content.Shared.Damage.Systems;
 
-public sealed partial class StaminaSystem : EntitySystem
+public abstract partial class SharedStaminaSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -39,6 +42,8 @@ public sealed partial class StaminaSystem : EntitySystem
     /// How much of a buffer is there between the stun duration and when stuns can be re-applied.
     /// </summary>
     private static readonly TimeSpan StamCritBufferTime = TimeSpan.FromSeconds(3f);
+    protected abstract void UpdateHud(EntityUid uid);
+
 
     public override void Initialize()
     {
@@ -73,30 +78,22 @@ public sealed partial class StaminaSystem : EntitySystem
         }
     }
 
+    #region OnSthOccured
     private void OnShutdown(EntityUid uid, StaminaComponent component, ComponentShutdown args)
     {
         if (MetaData(uid).EntityLifeStage < EntityLifeStage.Terminating)
         {
             RemCompDeferred<ActiveStaminaComponent>(uid);
         }
-        _alerts.ClearAlert(uid, component.StaminaAlert);
+
+        UpdateHud(uid);
     }
 
     private void OnStartup(EntityUid uid, StaminaComponent component, ComponentStartup args)
     {
-        SetStaminaAlert(uid, component);
+        UpdateHud(uid);
     }
 
-    [PublicAPI]
-    public float GetStaminaDamage(EntityUid uid, StaminaComponent? component = null)
-    {
-        if (!Resolve(uid, ref component))
-            return 0f;
-
-        var curTime = _timing.CurTime;
-        var pauseTime = _metadata.GetPauseTime(uid);
-        return MathF.Max(0f, component.StaminaDamage - MathF.Max(0f, (float) (curTime - (component.NextUpdate + pauseTime)).TotalSeconds * component.Decay));
-    }
 
     private void OnRejuvenate(EntityUid uid, StaminaComponent component, RejuvenateEvent args)
     {
@@ -107,25 +104,8 @@ public sealed partial class StaminaSystem : EntitySystem
 
         component.StaminaDamage = 0;
         RemComp<ActiveStaminaComponent>(uid);
-        SetStaminaAlert(uid, component);
         Dirty(uid, component);
-    }
-
-    private void OnDisarmed(EntityUid uid, StaminaComponent component, DisarmedEvent args)
-    {
-        if (args.Handled)
-            return;
-
-        if (component.Critical)
-            return;
-
-        var damage = args.PushProbability * component.CritThreshold;
-        TakeStaminaDamage(uid, damage, component, source: args.Source);
-
-        args.PopupPrefix = "disarm-action-shove-";
-        args.IsStunned = component.Critical;
-
-        args.Handled = true;
+        UpdateHud(uid);
     }
 
     private void OnMeleeHit(EntityUid uid, StaminaDamageOnHitComponent component, MeleeHitEvent args)
@@ -172,6 +152,23 @@ public sealed partial class StaminaSystem : EntitySystem
         }
     }
 
+    private void OnDisarmed(EntityUid uid, StaminaComponent component, DisarmedEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (component.Critical)
+            return;
+
+        var damage = args.PushProbability * component.CritThreshold;
+        TakeStaminaDamage(uid, damage, component, source: args.Source);
+
+        args.PopupPrefix = "disarm-action-shove-";
+        args.IsStunned = component.Critical;
+
+        args.Handled = true;
+    }
+
     private void OnProjectileHit(EntityUid uid, StaminaDamageOnCollideComponent component, ref ProjectileHitEvent args)
     {
         OnCollide(uid, component, args.Target);
@@ -204,14 +201,19 @@ public sealed partial class StaminaSystem : EntitySystem
 
         TakeStaminaDamage(target, component.Damage, source: uid, sound: component.Sound);
     }
+    #endregion
 
-    private void SetStaminaAlert(EntityUid uid, StaminaComponent? component = null)
+
+    #region Public API
+    [PublicAPI]
+    public float GetStaminaDamage(EntityUid uid, StaminaComponent? component = null)
     {
-        if (!Resolve(uid, ref component, false) || component.Deleted)
-            return;
+        if (!Resolve(uid, ref component))
+            return 0f;
 
-        var severity = ContentHelpers.RoundToLevels(MathF.Max(0f, component.CritThreshold - component.StaminaDamage), component.CritThreshold, 7);
-        _alerts.ShowAlert(uid, component.StaminaAlert, (short) severity);
+        var curTime = _timing.CurTime;
+        var pauseTime = _metadata.GetPauseTime(uid);
+        return MathF.Max(0f, component.StaminaDamage - MathF.Max(0f, (float)(curTime - (component.NextUpdate + pauseTime)).TotalSeconds * component.Decay));
     }
 
     /// <summary>
@@ -268,7 +270,7 @@ public sealed partial class StaminaSystem : EntitySystem
             _stunSystem.TrySlowdown(uid, TimeSpan.FromSeconds(3), true, 0.8f, 0.8f);
         }
 
-        SetStaminaAlert(uid, component);
+        UpdateHud(uid);
 
         if (!component.Critical)
         {
@@ -370,6 +372,7 @@ public sealed partial class StaminaSystem : EntitySystem
         component.NextUpdate = _timing.CurTime + component.StunTime + StamCritBufferTime;
         EnsureComp<ActiveStaminaComponent>(uid);
         Dirty(uid, component);
+        UpdateHud(uid);
         _adminLogger.Add(LogType.Stamina, LogImpact.Medium, $"{ToPrettyString(uid):user} entered stamina crit");
     }
 
@@ -384,11 +387,12 @@ public sealed partial class StaminaSystem : EntitySystem
         component.Critical = false;
         component.StaminaDamage = 0f;
         component.NextUpdate = _timing.CurTime;
-        SetStaminaAlert(uid, component);
         RemComp<ActiveStaminaComponent>(uid);
         Dirty(uid, component);
+        UpdateHud(uid);
         _adminLogger.Add(LogType.Stamina, LogImpact.Low, $"{ToPrettyString(uid):user} recovered from stamina crit");
     }
+    #endregion
 }
 
 /// <summary>
@@ -396,3 +400,11 @@ public sealed partial class StaminaSystem : EntitySystem
 /// </summary>
 [ByRefEvent]
 public record struct BeforeStaminaDamageEvent(float Value, bool Cancelled = false);
+
+
+/// <summary>
+///
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class SyncStaminaEvent : EntityEventArgs;
+

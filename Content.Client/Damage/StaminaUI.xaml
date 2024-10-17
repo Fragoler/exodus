@@ -1,0 +1,18 @@
+<stamina:StaminaUI xmlns="https://spacestation14.io"
+    xmlns:stamina="clr-namespace:Content.Client.Damage"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Top"
+    Visible="False">
+    <TextureRect Name="StaminaBar"
+        Access="Public"
+        TexturePath="/Textures/Interface/stamina/stamina_bar_back.png"
+        TextureScale="3 3">
+        <ProgressBar Name="ChargeBar"
+            Margin="12 12 6 6"
+            HorizontalExpand="True"
+            MinValue="0"
+            MaxValue="1"
+            Page="0"
+            Value="0.5"/>
+    </TextureRect>
+</stamina:StaminaUI>
