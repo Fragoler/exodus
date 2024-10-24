@@ -56,6 +56,7 @@ namespace Content.Shared.Input
         public static readonly BoundKeyFunction TakeScreenshotNoUI = "TakeScreenshotNoUI";
         public static readonly BoundKeyFunction ToggleFullscreen = "ToggleFullscreen";
         public static readonly BoundKeyFunction ToggleStanding = "ToggleStanding"; // Exodus-Crawling
+        public static readonly BoundKeyFunction BattleDash = "BattleDash"; // Exodus-BattleUpdate
         public static readonly BoundKeyFunction Point = "Point";
         public static readonly BoundKeyFunction ZoomOut = "ZoomOut";
         public static readonly BoundKeyFunction ZoomIn = "ZoomIn";

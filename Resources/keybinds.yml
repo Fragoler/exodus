@@ -596,3 +596,9 @@ binds:
   type: State
   key: R
 # Exodus-Crawling-End
+
+# Exodus-BattleDash-Start
+- function: BattleDash
+  type: State
+  key: Space
+# Exodus-BattleDash-End
